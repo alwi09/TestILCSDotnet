@@ -1,8 +1,11 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using TestDotnet.Models;
 
 namespace TestDotnet
 {
@@ -18,6 +21,11 @@ namespace TestDotnet
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            // add configure Posgres
+            services.AddDbContext<DataContext>(options =>
+                options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+
 
             // Add Swashbuckle
             services.AddSwaggerGen(c =>
